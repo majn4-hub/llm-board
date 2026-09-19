@@ -1,0 +1,72 @@
+# ============================================================
+# llm-board 配置文件（首次运行自动生成，可直接编辑）
+# 路径: ~/.config/llm-board/config.toml
+# 修改保存后，下次刷新 / 运行生效。
+# ============================================================
+
+[general]
+# 浮窗自动刷新间隔（秒）
+refresh_interval = 300
+# 续航预测的观察窗口（天）
+window_days = 14
+
+[proxy]
+# 本地代理地址，例如 "http://127.0.0.1:8080"。
+# 留空 = 直连。境外服务（Codex / OpenRouter）在国内建议配置代理。
+url = ""
+
+[paths]
+# Codex CLI 数据目录（读取离线额度快照）
+codex_home = "~/.codex"
+# 余额历史数据库（自动创建，用于计算消耗速度）
+history_db = "~/.config/llm-board/history.db"
+# 本地用量账本（SQLite，可选）：用于「钱是谁花的」归因分析。
+# 默认关闭——显式配置本路径才启用；只读本机文件，数据不出本机。留空 = 不启用归因。
+ledger_db = ""
+# 兼容项（可选）：从旧版 .env 文件读取 API key（KEY=VALUE 格式）
+env_file = ""
+
+[sources]
+# CodexBar CLI 路径（可选）。留空 = 自动探测常见安装位置；
+# 探测不到时仅依赖直连 / 本地数据源。
+codexbar_cli = ""
+
+[providers.codex]
+enabled = true
+
+[providers.deepseek]
+enabled = true
+# API Key。留空时依次读取环境变量 DEEPSEEK_API_KEY / DEEPSEEK_KEY。
+# api_key = ""
+
+[providers.openrouter]
+enabled = true
+# API Key。留空时读取环境变量 OPENROUTER_API_KEY。
+# api_key = ""
+
+[providers.custom]
+# 自定义 OpenAI 兼容服务（余额查询）。需要时打开并填写：
+enabled = false
+# label = "Custom"
+# url = "https://example.com/api/v1/balance"
+# api_key = ""
+# api_key_env = ""
+# balance_path = "data.balance"
+# unit = "USD"
+
+[plugins.mimo]
+# MiMo 余额需要通过浏览器登录态读取（实验性）。默认关闭。
+enabled = false
+# ego_bin = ""
+
+[alerts.codex]
+warn_remaining = 30
+crit_remaining = 15
+
+[alerts.deepseek]
+warn_balance = 10
+crit_balance = 5
+
+[alerts.mimo]
+warn_balance = 10
+crit_balance = 5

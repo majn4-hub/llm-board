@@ -1,0 +1,16 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# 构建产物
+bin/
+*.app
+
+# 系统
+.DS_Store
+
+# 内部临时区（不入库）
+.openclaw/

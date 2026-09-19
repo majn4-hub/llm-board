@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }} · tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Run tests
+        run: python -m pytest -q
+      - name: CLI smoke test (offline demo mode)
+        run: |
+          python -m llm_board collect --demo > /dev/null
+          python -m llm_board version
+
+  swift:
+    name: Swift panel · compile
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Compile panel
+        run: |
+          mkdir -p bin
+          swiftc -O -swift-version 5 src/ui/llm_monitor_desktop.swift -o bin/llm-monitor
